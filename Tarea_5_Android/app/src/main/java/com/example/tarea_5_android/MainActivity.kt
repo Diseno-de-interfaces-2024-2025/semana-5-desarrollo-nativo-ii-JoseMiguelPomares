@@ -129,7 +129,8 @@ fun MyNavControllerCustom(navController: NavHostController, modifier: Modifier){
         composable("screen3"){ Screen3() }
     }
 }
-/*@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun MyIconCuenta(modifier:Modifier){
     Row(){
         Icon(
@@ -138,7 +139,7 @@ fun MyIconCuenta(modifier:Modifier){
             modifier = modifier.size(48.dp)
         )
     }
-}*/
+}
 @Composable
 fun MyCuenta(modifier:Modifier){
     Box(modifier)
