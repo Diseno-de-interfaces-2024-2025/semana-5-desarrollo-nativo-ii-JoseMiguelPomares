@@ -9,14 +9,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,6 +46,13 @@ import com.example.tarea_5_android.ui.components.Screen1
 import com.example.tarea_5_android.ui.components.Screen2
 import com.example.tarea_5_android.ui.components.Screen3
 import com.example.tarea_5_android.ui.theme.Tarea_5_AndroidTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.twotone.AccountCircle
+import androidx.compose.material3.Icon
+import androidx.compose.ui.Alignment
+
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -62,22 +74,14 @@ class MainActivity : ComponentActivity() {
                                     Modifier.clip(shape = CircleShape)
                                         .height(35.dp)
                                         .width(35.dp)
-                                        .background(Color.Black)
-                                ){ }
+                                ){ MyIconFlechaAtras(Modifier) }
                             },
                             actions = {
                                 Box(
                                     Modifier.clip(shape = CircleShape)
                                         .height(35.dp)
                                         .width(35.dp)
-                                        .background(Color.Black)
-                                ){ }
-                                Box(
-                                    Modifier.clip(shape = CircleShape)
-                                        .height(35.dp)
-                                        .width(35.dp)
-                                        .background(Color.Black)
-                                ){ }
+                                ){ MyIconCuenta(Modifier) }
                             }
                         )
                     },
@@ -91,28 +95,25 @@ class MainActivity : ComponentActivity() {
                                     Modifier.clip(shape = CircleShape)
                                         .height(35.dp)
                                         .width(35.dp)
-                                        .background(Color.Black)
                                         .clickable { navController.navigate("screen1") }
-                                ){}
+                                ){ MyIconHome(Modifier) }
                                 Box(
                                     Modifier.clip(shape = CircleShape)
                                         .height(35.dp)
                                         .width(35.dp)
-                                        .background(Color.Black)
                                         .clickable { navController.navigate("screen2") }
-                                ){}
+                                ){ MyIconEdit(Modifier) }
                                 Box(
                                     Modifier.clip(shape = CircleShape)
                                         .height(35.dp)
                                         .width(35.dp)
-                                        .background(Color.Black)
                                         .clickable { navController.navigate("screen3") }
-                                ){}
+                                ){ MyIconFav(Modifier) }
                             }
                         }
                     },
                     modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyNavControllerCustom(navController, Modifier.padding(innerPadding))
+                    MyLazyColumn(Modifier.padding(innerPadding))
                 }
             }
         }
@@ -140,14 +141,93 @@ fun MyIconCuenta(modifier:Modifier){
         )
     }
 }
+
 @Composable
-fun MyCuenta(modifier:Modifier){
-    Box(modifier)
-    Image(
-        painter = painterResource(R.drawable.cuenta),
-        contentDescription = "",
-        contentScale = ContentScale.Fit
-    )
+fun MyIconFlechaAtras(modifier:Modifier){
+    Row(){
+        Icon(
+            painter = painterResource(R.drawable.flecha_atras),
+            contentDescription = "favorite",
+            modifier = modifier.size(48.dp)
+        )
+    }
 }
 
+@Composable
+fun MyIconHome(modifier:Modifier){
+    Row(){
+        Icon(
+            painter = painterResource(R.drawable.home),
+            contentDescription = "favorite",
+            modifier = modifier.size(48.dp)
+        )
+    }
+}
 
+@Composable
+fun MyIconEdit(modifier:Modifier){
+    Row(){
+        Icon(
+            painter = painterResource(R.drawable.pencil),
+            contentDescription = "favorite",
+            modifier = modifier.size(48.dp)
+        )
+    }
+}
+@Composable
+fun MyIconFav(modifier:Modifier){
+    Row(){
+        Icon(
+            painter = painterResource(R.drawable.favorite),
+            contentDescription = "favorite",
+            modifier = modifier.size(48.dp)
+        )
+    }
+}
+
+@Composable
+fun MyLazyColumn(modifier: Modifier){
+    val itemList = listOf(
+        Asignatura("Historia", R.drawable.historia),
+        Asignatura("Matematicas", R.drawable.matematicas),
+    )
+    LazyColumn (modifier = modifier.padding(horizontal = 15.dp).fillMaxWidth()) {
+        items(itemList) { asign ->
+            Column(Modifier.fillMaxWidth()){
+                Text(asign.asignatura,
+                    Modifier.align(Alignment.CenterHorizontally))
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                        .clip(shape = RoundedCornerShape(20.dp))
+                ){
+                    Image(
+                        painter = painterResource(asign.imageId),
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                    )
+                }
+            }
+            Column(Modifier.fillMaxWidth()){
+                Text(asign.asignatura,
+                    Modifier.align(Alignment.CenterHorizontally))
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                        .clip(shape = RoundedCornerShape(20.dp))
+                ){
+                    Image(
+                        painter = painterResource(asign.imageId),
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                    )
+                }
+            }
+            Spacer(Modifier.height(20.dp))
+        }
+    }
+}
+
+data class Asignatura(val asignatura: String, val imageId: Int)
